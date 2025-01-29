@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goose-migrations
+spec: 
+  template:
+    spec:
+      containers:
+      - name: goose
+        image: joeavaikath/shinko-goose-migrations:latest
+        env:
+        - name: DB_URL
+          value: "postgres://joeav:postgres@postgres:5432/shinko?sslmode=disable"
+        command: ["/bin/sh", "-c", "goose postgres $DB_URL up"]
+      restartPolicy: Never
